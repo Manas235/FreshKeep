@@ -1,0 +1,5 @@
+{
+  "name": "FreshKeep",
+  "description": "A smart food inventory manager that helps reduce waste by tracking expiry dates and suggesting AI-powered healthy recipes based on ingredients you already have.",
+  "requestFramePermissions": []
+}
