@@ -14,6 +14,7 @@ export interface FoodItem {
   quantity: string;
   expiryDate: string; // ISO string YYYY-MM-DD
   addedDate: string;
+  storageTip?: string;
 }
 
 export interface RecipeIngredient {

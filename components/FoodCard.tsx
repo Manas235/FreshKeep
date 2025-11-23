@@ -1,6 +1,6 @@
 import React from 'react';
 import { FoodItem, Category } from '../types';
-import { TrashIcon, AlertTriangleIcon } from './Icons';
+import { TrashIcon, AlertTriangleIcon, SnowflakeIcon, ArchiveIcon } from './Icons';
 
 interface FoodCardProps {
   item: FoodItem;
@@ -44,27 +44,47 @@ const FoodCard: React.FC<FoodCardProps> = ({ item, onDelete }) => {
   const status = getExpiryStatus(item.expiryDate);
   const categoryStyles = getCategoryStyles(item.category);
 
+  const storageTip = item.storageTip;
+  let storageIcon = null;
+  if (storageTip) {
+      const lowerCaseTip = storageTip.toLowerCase();
+      if (lowerCaseTip.includes('refrigerate') || lowerCaseTip.includes('fridge')) {
+          storageIcon = <SnowflakeIcon className="w-4 h-4 text-blue-500 flex-shrink-0" />;
+      } else {
+          storageIcon = <ArchiveIcon className="w-4 h-4 text-amber-600 flex-shrink-0" />;
+      }
+  }
+
   return (
-    <div className={`relative group bg-white rounded-xl p-4 shadow-sm border transition-all hover:shadow-md ${status.urgent ? 'border-red-100 ring-1 ring-red-50' : 'border-stone-100'}`}>
-      <div className="flex justify-between items-start mb-2">
-        <div>
-          <span className={`text-xs font-bold tracking-wider uppercase mb-2 block px-2 py-1 rounded-full w-fit ${categoryStyles}`}>{item.category}</span>
-          <h3 className="font-bold text-stone-800 text-lg leading-tight">{item.name}</h3>
-          <p className="text-sm text-stone-500 mt-1">{item.quantity}</p>
+    <div className={`relative group bg-white rounded-xl p-4 shadow-sm border transition-all hover:shadow-md flex flex-col ${status.urgent ? 'border-red-100 ring-1 ring-red-50' : 'border-stone-100'}`}>
+      <div className="flex-grow">
+        <div className="flex justify-between items-start mb-2">
+          <div>
+            <span className={`text-xs font-bold tracking-wider uppercase mb-2 block px-2 py-1 rounded-full w-fit ${categoryStyles}`}>{item.category}</span>
+            <h3 className="font-bold text-stone-800 text-lg leading-tight">{item.name}</h3>
+            <p className="text-sm text-stone-500 mt-1">{item.quantity}</p>
+          </div>
+          <button 
+            onClick={() => onDelete(item.id)}
+            className="text-stone-400 hover:text-red-500 transition-colors p-1 rounded-full hover:bg-red-50"
+            aria-label="Delete item"
+          >
+            <TrashIcon className="w-5 h-5" />
+          </button>
         </div>
-        <button 
-          onClick={() => onDelete(item.id)}
-          className="text-stone-400 hover:text-red-500 transition-colors p-1 rounded-full hover:bg-red-50"
-          aria-label="Delete item"
-        >
-          <TrashIcon className="w-5 h-5" />
-        </button>
+        
+        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg mt-3 text-xs font-medium w-fit ${status.color}`}>
+          {status.urgent && <AlertTriangleIcon className="w-3 h-3" />}
+          {status.label}
+        </div>
       </div>
       
-      <div className={`flex items-center gap-2 px-3 py-2 rounded-lg mt-3 text-xs font-medium w-fit ${status.color}`}>
-        {status.urgent && <AlertTriangleIcon className="w-3 h-3" />}
-        {status.label}
-      </div>
+      {storageTip && (
+        <div className="mt-4 pt-3 border-t border-stone-100 flex items-start gap-2.5">
+            {storageIcon}
+            <p className="text-xs text-stone-500 leading-snug">{storageTip}</p>
+        </div>
+      )}
     </div>
   );
 };

@@ -5,6 +5,8 @@ import FoodCard from './components/FoodCard';
 import AddFoodModal from './components/AddFoodModal';
 import AlertBanner from './components/AlertBanner';
 import NotificationPanel from './components/NotificationPanel';
+import ConfirmationModal from './components/ConfirmationModal';
+import ChefChat from './components/ChefChat';
 import { 
   PlusIcon, 
   ChefHatIcon, 
@@ -14,6 +16,8 @@ import {
   SearchIcon,
   BookmarkIcon,
   TrashIcon,
+  FilterIcon,
+  ShuffleIcon,
 } from './components/Icons';
 
 const loadInitialData = (): FoodItem[] => {
@@ -21,27 +25,27 @@ const loadInitialData = (): FoodItem[] => {
   if (saved) return JSON.parse(saved);
   
   return [
-    { id: '1', name: 'Greek Yogurt', category: Category.DAIRY, quantity: '500g', expiryDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString() },
-    { id: '2', name: 'Spinach', category: Category.PRODUCE, quantity: '1 bag', expiryDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString() },
-    { id: '3', name: 'Chicken Breast', category: Category.MEAT, quantity: '2 fillets', expiryDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString() },
-    { id: '4', name: 'Brown Rice', category: Category.PANTRY, quantity: '1kg', expiryDate: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString() },
-    { id: '5', name: 'Avocados', category: Category.PRODUCE, quantity: '3', expiryDate: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString() },
-    { id: '6', name: 'Milk', category: Category.DAIRY, quantity: '1L', expiryDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString() },
-    { id: '7', name: 'Eggs', category: Category.DAIRY, quantity: '12', expiryDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString() },
-    { id: '8', name: 'Whole Wheat Bread', category: Category.PANTRY, quantity: '1 loaf', expiryDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString() },
-    { id: '9', name: 'Carrots', category: Category.PRODUCE, quantity: '1kg', expiryDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString() },
-    { id: '11', name: 'Pasta', category: Category.PANTRY, quantity: '500g', expiryDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString() },
-    { id: '12', name: 'Apples', category: Category.PRODUCE, quantity: '6', expiryDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString() },
-    { id: '13', name: 'Strawberries', category: Category.PRODUCE, quantity: '1 box', expiryDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString() },
-    { id: '14', name: 'Salmon Fillet', category: Category.MEAT, quantity: '300g', expiryDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString() },
-    { id: '15', name: 'Orange Juice', category: Category.BEVERAGE, quantity: '1L', expiryDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString() },
-    { id: '16', name: 'Cheddar Cheese', category: Category.DAIRY, quantity: '200g', expiryDate: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString() },
-    { id: '17', name: 'Black Beans', category: Category.PANTRY, quantity: '2 cans', expiryDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString() },
-    { id: '18', name: 'Onions', category: Category.PRODUCE, quantity: '1kg', expiryDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString() },
-    { id: '19', name: 'Tomatoes', category: Category.PRODUCE, quantity: '6', expiryDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString() },
-    { id: '20', name: 'Quinoa', category: Category.PANTRY, quantity: '500g', expiryDate: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString() },
-    { id: '21', name: 'Soy Sauce', category: Category.PANTRY, quantity: '1 bottle', expiryDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString() },
-    { id: '22', name: 'Bell Peppers', category: Category.PRODUCE, quantity: '3', expiryDate: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString() },
+    { id: '1', name: 'Greek Yogurt', category: Category.DAIRY, quantity: '500g', expiryDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString(), storageTip: 'Keep refrigerated and consume within a week of opening.' },
+    { id: '2', name: 'Spinach', category: Category.PRODUCE, quantity: '1 bag', expiryDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString(), storageTip: 'Store in the crisper drawer of your refrigerator.' },
+    { id: '3', name: 'Chicken Breast', category: Category.MEAT, quantity: '2 fillets', expiryDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString(), storageTip: 'Refrigerate immediately and cook or freeze within 2 days.' },
+    { id: '4', name: 'Brown Rice', category: Category.PANTRY, quantity: '1kg', expiryDate: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString(), storageTip: 'Store in an airtight container in a cool, dry pantry.' },
+    { id: '5', name: 'Avocados', category: Category.PRODUCE, quantity: '3', expiryDate: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString(), storageTip: 'Store at room temperature until ripe, then refrigerate.' },
+    { id: '6', name: 'Milk', category: Category.DAIRY, quantity: '1L', expiryDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString(), storageTip: 'Keep refrigerated.' },
+    { id: '7', name: 'Eggs', category: Category.DAIRY, quantity: '12', expiryDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString(), storageTip: 'Store in the main body of the refrigerator, not the door.' },
+    { id: '8', name: 'Whole Wheat Bread', category: Category.PANTRY, quantity: '1 loaf', expiryDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString(), storageTip: 'Store in a cool, dry place. Can be frozen for longer storage.' },
+    { id: '9', name: 'Carrots', category: Category.PRODUCE, quantity: '1kg', expiryDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString(), storageTip: 'Remove green tops and store in the refrigerator.' },
+    { id: '11', name: 'Pasta', category: Category.PANTRY, quantity: '500g', expiryDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString(), storageTip: 'Store in an airtight container in a cool, dry pantry.' },
+    { id: '12', name: 'Apples', category: Category.PRODUCE, quantity: '6', expiryDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString(), storageTip: 'Refrigerate to keep them crisp.' },
+    { id: '13', name: 'Strawberries', category: Category.PRODUCE, quantity: '1 box', expiryDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString(), storageTip: 'Refrigerate and wash only before eating.' },
+    { id: '14', name: 'Salmon Fillet', category: Category.MEAT, quantity: '300g', expiryDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString(), storageTip: 'Keep refrigerated and consume within 2 days.' },
+    { id: '15', name: 'Orange Juice', category: Category.BEVERAGE, quantity: '1L', expiryDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString(), storageTip: 'Refrigerate after opening.' },
+    { id: '16', name: 'Cheddar Cheese', category: Category.DAIRY, quantity: '200g', expiryDate: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString(), storageTip: 'Wrap tightly and store in the refrigerator.' },
+    { id: '17', name: 'Black Beans', category: Category.PANTRY, quantity: '2 cans', expiryDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString(), storageTip: 'Store in a cool, dry pantry.' },
+    { id: '18', name: 'Onions', category: Category.PRODUCE, quantity: '1kg', expiryDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString(), storageTip: 'Store in a cool, dark, and well-ventilated place.' },
+    { id: '19', name: 'Tomatoes', category: Category.PRODUCE, quantity: '6', expiryDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString(), storageTip: 'Store at room temperature away from direct sunlight.' },
+    { id: '20', name: 'Quinoa', category: Category.PANTRY, quantity: '500g', expiryDate: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString(), storageTip: 'Store in an airtight container in a cool, dry place.' },
+    { id: '21', name: 'Soy Sauce', category: Category.PANTRY, quantity: '1 bottle', expiryDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString(), storageTip: 'Store in a cool, dark place. Refrigerate after opening for best quality.' },
+    { id: '22', name: 'Bell Peppers', category: Category.PRODUCE, quantity: '3', expiryDate: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], addedDate: new Date().toISOString(), storageTip: 'Store in the refrigerator crisper drawer.' },
   ];
 };
 
@@ -57,37 +61,28 @@ export default function App() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [savedRecipes, setSavedRecipes] = useState<Recipe[]>(loadSavedRecipes);
   const [notifications, setNotifications] = useState<Alert[]>([]);
+  // New state for tracking read alerts
+  const [readAlertIds, setReadAlertIds] = useState<string[]>(() => {
+    const saved = localStorage.getItem('freshKeepReadAlerts');
+    return saved ? JSON.parse(saved) : [];
+  });
+  // State for item deletion confirmation
+  const [itemToDelete, setItemToDelete] = useState<string | null>(null);
+  
   const [toasts, setToasts] = useState<Alert[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [loadingRecipes, setLoadingRecipes] = useState(false);
   const [activeTab, setActiveTab] = useState<'inventory' | 'recipes' | 'saved'>('inventory');
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [dietaryPreference, setDietaryPreference] = useState('none');
 
-  // Persist inventory to local storage
+  // Persist inventory to local storage and update notifications
   useEffect(() => {
     localStorage.setItem('freshKeepInventory', JSON.stringify(inventory));
-    checkExpiryAndGenerateNotifications();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inventory]);
-
-  // Persist saved recipes to local storage
-  useEffect(() => {
-    localStorage.setItem('freshKeepSavedRecipes', JSON.stringify(savedRecipes));
-  }, [savedRecipes]);
-
-  const addToast = (message: string, type: AlertType = 'success') => {
-    const id = `toast-${Date.now()}-${Math.random()}`;
-    setToasts(prev => [...prev, { id, message, type, date: new Date().toISOString() }]);
     
-    // Auto dismiss
-    setTimeout(() => {
-      setToasts(prev => prev.filter(t => t.id !== id));
-    }, 4000);
-  };
-
-  const checkExpiryAndGenerateNotifications = () => {
+    // Generate notifications logic
     const newNotifications: Alert[] = [];
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -98,24 +93,54 @@ export default function App() {
       const diffTime = expiry.getTime() - today.getTime();
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
+      let alertId = '';
+      let alertMessage = '';
+      let alertType: AlertType = 'info';
+
       if (diffDays < 0) {
-        newNotifications.push({
-          id: `alert-${item.id}-expired`,
-          message: `${item.name} has expired! Please dispose of it.`,
-          type: 'danger',
-          date: new Date().toISOString()
-        });
+        alertId = `alert-${item.id}-expired`;
+        alertMessage = `${item.name} has expired! Please dispose of it.`;
+        alertType = 'danger';
       } else if (diffDays <= 2) {
+        alertId = `alert-${item.id}-soon`;
+        alertMessage = `${item.name} expires ${diffDays === 0 ? 'today' : 'in ' + diffDays + ' days'}.`;
+        alertType = 'warning';
+      }
+
+      if (alertId) {
         newNotifications.push({
-          id: `alert-${item.id}-soon`,
-          message: `${item.name} expires ${diffDays === 0 ? 'today' : 'in ' + diffDays + ' days'}.`,
-          type: 'warning',
+          id: alertId,
+          message: alertMessage,
+          type: alertType,
           date: new Date().toISOString()
         });
       }
     });
 
-    setNotifications(newNotifications);
+    // Filter out read alerts
+    const unreadNotifications = newNotifications.filter(alert => !readAlertIds.includes(alert.id));
+    setNotifications(unreadNotifications);
+
+  }, [inventory, readAlertIds]);
+
+  // Persist saved recipes to local storage
+  useEffect(() => {
+    localStorage.setItem('freshKeepSavedRecipes', JSON.stringify(savedRecipes));
+  }, [savedRecipes]);
+  
+  // Persist read alerts to local storage
+  useEffect(() => {
+    localStorage.setItem('freshKeepReadAlerts', JSON.stringify(readAlertIds));
+  }, [readAlertIds]);
+
+  const addToast = (message: string, type: AlertType = 'success') => {
+    const id = `toast-${Date.now()}-${Math.random()}`;
+    setToasts(prev => [...prev, { id, message, type, date: new Date().toISOString() }]);
+    
+    // Auto dismiss
+    setTimeout(() => {
+      setToasts(prev => prev.filter(t => t.id !== id));
+    }, 4000);
   };
 
   const handleAddItem = (newItem: Omit<FoodItem, 'id' | 'addedDate'>) => {
@@ -129,8 +154,15 @@ export default function App() {
   };
 
   const handleDeleteItem = (id: string) => {
-    setInventory(prev => prev.filter(item => item.id !== id));
-    addToast('Item removed from pantry', 'info');
+    setItemToDelete(id);
+  };
+
+  const confirmDelete = () => {
+    if (itemToDelete) {
+      setInventory(prev => prev.filter(item => item.id !== itemToDelete));
+      addToast('Item removed from pantry', 'info');
+      setItemToDelete(null);
+    }
   };
 
   const handleGenerateRecipes = async () => {
@@ -149,6 +181,20 @@ export default function App() {
     }
   };
 
+  const handleShuffleRecipes = () => {
+    if (recipes.length === 0) return;
+    setRecipes(prev => {
+      const shuffled = [...prev];
+      // Fisher-Yates shuffle
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    });
+    addToast('Recipes shuffled', 'info');
+  };
+
   const handleToggleSaveRecipe = (recipeToToggle: Recipe) => {
     const isSaved = savedRecipes.some(r => r.id === recipeToToggle.id);
     if (isSaved) {
@@ -165,13 +211,25 @@ export default function App() {
     addToast('Recipe removed from saved', 'info');
   };
 
+  const handleMarkAsRead = (id: string) => {
+    setReadAlertIds(prev => [...prev, id]);
+    // Notification state update will be handled by the useEffect
+  };
+
+  const handleMarkAllAsRead = () => {
+    const ids = notifications.map(n => n.id);
+    setReadAlertIds(prev => [...prev, ...ids]);
+  };
+
   const filteredAndSortedInventory = useMemo(() => {
     return inventory
-      .filter(item => 
-        item.name.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+      .filter(item => {
+        const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
+        return matchesSearch && matchesCategory;
+      })
       .sort((a, b) => new Date(a.expiryDate).getTime() - new Date(b.expiryDate).getTime());
-  }, [inventory, searchQuery]);
+  }, [inventory, searchQuery, selectedCategory]);
 
   return (
     <div className="min-h-screen bg-stone-50 text-stone-900 relative" onClick={() => isNotificationOpen && setIsNotificationOpen(false)}>
@@ -190,12 +248,13 @@ export default function App() {
       {/* Navbar */}
       <nav className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-stone-200 px-4 sm:px-6 py-4" onClick={e => e.stopPropagation()}>
         <div className="max-w-5xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-2 text-teal-600">
-            <div className="bg-teal-100 p-2 rounded-lg">
+          <div className="flex items-center gap-3">
+            <div className="bg-teal-100 p-2 rounded-lg text-teal-600">
               <LeafIcon className="w-6 h-6" />
             </div>
-            <span className="text-xl font-bold tracking-tight text-stone-900 hidden sm:inline">FreshKeep</span>
-            <span className="text-xl font-bold tracking-tight text-stone-900 sm:hidden">FreshKeep</span>
+            <span className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-teal-600 to-emerald-500 bg-clip-text text-transparent">
+              FreshKeep
+            </span>
           </div>
           
           <div className="flex items-center gap-3 sm:gap-4">
@@ -239,6 +298,8 @@ export default function App() {
                 isOpen={isNotificationOpen} 
                 notifications={notifications} 
                 onClose={() => setIsNotificationOpen(false)}
+                onMarkAsRead={handleMarkAsRead}
+                onMarkAllAsRead={handleMarkAllAsRead}
               />
             </div>
           </div>
@@ -275,19 +336,38 @@ export default function App() {
                </div>
              </div>
 
-             <div className="mb-6 relative">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <SearchIcon className="w-5 h-5 text-stone-400" />
-              </div>
-              <input
-                type="text"
-                placeholder="Search pantry items..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-11 pr-4 py-2.5 rounded-xl border border-stone-200 bg-white focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-all shadow-sm"
-                aria-label="Search pantry items"
-              />
-            </div>
+             <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                <div className="relative flex-grow">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <SearchIcon className="w-5 h-5 text-stone-400" />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Search pantry items..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-11 pr-4 py-2.5 rounded-xl border border-stone-200 bg-white focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-all shadow-sm"
+                    aria-label="Search pantry items"
+                  />
+                </div>
+                
+                <div className="relative min-w-[200px]">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <FilterIcon className="w-4 h-4 text-stone-400" />
+                  </div>
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    className="w-full pl-10 pr-8 py-2.5 rounded-xl border border-stone-200 bg-white focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-all shadow-sm appearance-none"
+                    style={{ backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`, backgroundPosition: 'right 0.5rem center', backgroundRepeat: 'no-repeat', backgroundSize: '1.5em 1.5em', paddingRight: '2.5rem' }}
+                  >
+                    <option value="All">All Categories</option>
+                    {Object.values(Category).map((c) => (
+                      <option key={c} value={c}>{c}</option>
+                    ))}
+                  </select>
+                </div>
+             </div>
 
              {inventory.length === 0 ? (
                <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-stone-300">
@@ -310,13 +390,15 @@ export default function App() {
                   </div>
                   <h3 className="text-lg font-medium text-stone-900">No items found</h3>
                   <p className="text-stone-500 max-w-xs mx-auto mt-2">
-                    Your search for "{searchQuery}" did not match any items.
+                    {searchQuery 
+                      ? `Your search for "${searchQuery}" did not match any items.` 
+                      : `No items found in the "${selectedCategory}" category.`}
                   </p>
                   <button 
-                    onClick={() => setSearchQuery('')}
+                    onClick={() => { setSearchQuery(''); setSelectedCategory('All'); }}
                     className="mt-6 text-teal-600 font-medium hover:underline"
                   >
-                    Clear search
+                    Clear filters
                   </button>
                 </div>
              ) : (
@@ -350,6 +432,17 @@ export default function App() {
                     <option value="vegan">Vegan</option>
                     <option value="gluten-free">Gluten-Free</option>
                   </select>
+                  
+                  {recipes.length > 1 && (
+                     <button
+                      onClick={handleShuffleRecipes}
+                      className="p-2 text-stone-500 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-colors"
+                      title="Shuffle Recipes"
+                    >
+                      <ShuffleIcon className="w-5 h-5" />
+                    </button>
+                  )}
+
                   <button
                     onClick={handleGenerateRecipes}
                     className="text-amber-600 font-medium hover:bg-amber-50 px-4 py-2 rounded-lg transition-colors flex items-center gap-1.5"
@@ -539,6 +632,16 @@ export default function App() {
         onClose={() => setIsModalOpen(false)} 
         onAdd={handleAddItem} 
       />
+
+      <ConfirmationModal 
+        isOpen={!!itemToDelete}
+        title="Remove Item"
+        message={`Are you sure you want to remove "${inventory.find(i => i.id === itemToDelete)?.name || 'this item'}"? This action cannot be undone.`}
+        onConfirm={confirmDelete}
+        onCancel={() => setItemToDelete(null)}
+      />
+
+      <ChefChat inventory={inventory} />
     </div>
   );
 }
